@@ -38,3 +38,79 @@ console.log(aniversarioEsperto);
 const casamentoEsperto = new DataEsperta(); // posso omitir os "()"
 casamentoEsperto.ano = 2017;
 console.log(casamentoEsperto);
+
+// Modificadores de acesso
+
+class Carro {
+  private velocidadeAtual: number = 0;
+
+  constructor(
+    public marca: string,
+    public modelo: string,
+    private velocidadeMaxima: number = 200,
+  ) {}
+
+  protected alterarValocidade(delta: number): number {
+    const novaVelocidade = this.velocidadeAtual + delta;
+    const velocidadeValida =
+      novaVelocidade >= 0 && novaVelocidade <= this.velocidadeMaxima;
+
+    if (velocidadeValida) {
+      this.velocidadeAtual = novaVelocidade;
+    } else {
+      this.velocidadeAtual = delta > 0 ? this.velocidadeMaxima : 0;
+    }
+    return this.velocidadeAtual;
+  }
+
+  public acelerar(): number {
+    return this.alterarValocidade(5);
+  }
+
+  public frear(): number {
+    return this.alterarValocidade(-5);
+  }
+}
+
+const carro1 = new Carro('Ford', 'Ka', 185);
+
+console.log(carro1.acelerar());
+console.log(carro1.frear());
+
+// Herança
+
+class Ferrari extends Carro {
+  public acelerar(): number {
+    return this.alterarValocidade(20);
+  }
+
+  public frear(): number {
+    return this.alterarValocidade(-15);
+  }
+}
+
+const f40 = new Ferrari('Ferrari', 'F40', 324);
+console.log(`${f40.marca} ${f40.modelo}`);
+
+console.log(f40.acelerar());
+console.log(f40.frear());
+
+// Get e set
+
+class Pessoa {
+  private _idade: number = 0;
+
+  get idade(): number {
+    return this._idade;
+  }
+
+  set idade(valor: number) {
+    if (valor >= 0 && valor <= 120) {
+      this._idade = valor;
+    }
+  }
+}
+
+const pessoa1 = new Pessoa();
+pessoa1.idade = 10;
+console.log(pessoa1);
